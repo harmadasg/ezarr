@@ -8,9 +8,8 @@ class UserGroupSetup:
 
     def create_config_dir(self, service_name):
         os.system(
-            f'sudo mkdir -p {self.root_dir}/docker/{service_name}-config'
-            f' ; sudo chown -R {service_name}:mediacenter {self.root_dir}/docker/{service_name}-config'
-            f' ; sudo chown $(id -u):mediacenter {self.root_dir}/docker'
+            f'sudo mkdir -p {self.root_dir}/config/{service_name}-config'
+            f' ; sudo chown -R {service_name}:mediacenter {self.root_dir}/config/{service_name}-config'
         )
 
     def sonarr(self):
@@ -107,3 +106,8 @@ class UserGroupSetup:
         os.system('sudo useradd jellyseerr -u 13012')
         self.create_config_dir('jellyseerr')
         os.system('sudo usermod -a -G mediacenter jellyseerr')
+
+    def jellyfin(self):
+        os.system('sudo useradd jellyfin -u 13013')
+        self.create_config_dir('jellyfin')
+        os.system('sudo usermod -a -G mediacenter jellyfin')
