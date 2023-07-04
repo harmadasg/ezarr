@@ -56,7 +56,6 @@ class ContainerConfig:
             '  jellyfin:\n'
             '    image: lscr.io/linuxserver/jellyfin:latest\n'
             '    container_name: jellyfin\n'
-            '    network_mode: "host"\n'            
             '    environment:\n'
             '      - PUID=13013\n'
             '      - PGID=13000\n'
@@ -65,6 +64,8 @@ class ContainerConfig:
             '    volumes:\n'
             '      - ' + self.config_dir + '/jellyfin-config:/config\n'
             '      - ' + self.root_dir + '/data/media:/data\n'
+            '    ports:\n'
+            '      - "8096:8096"\n'
             '    restart: unless-stopped\n\n'
         )
 

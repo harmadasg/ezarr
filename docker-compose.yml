@@ -136,7 +136,6 @@ services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
-    network_mode: "host"
     environment:
       - PUID=13013
       - PGID=13000
@@ -145,6 +144,8 @@ services:
     volumes:
       - /home/user/ezarr/config/jellyfin-config:/config
       - /home/user/ezarr/data/media:/data
+    ports:
+      - "8096:8096"
     restart: unless-stopped
 
   qbittorrent:

@@ -1,3 +1,5 @@
+import os
+
 from container_configs import ContainerConfig
 from users_groups_setup import UserGroupSetup
 
@@ -132,9 +134,12 @@ for service in services:
     compose.write(getattr(container_config, service)())
 compose.close()
 
-f' ; sudo chmod -R 775 {root_dir}/data'
-f' ; sudo chown $(id -u):mediacenter {root_dir}/{{data,config}}'
-f' ; echo "UID=$(id -u)" >> .env'
+os.system(
+    f'sudo chmod -R 775 {root_dir}/data'
+    f' ; sudo chown $(id -u):mediacenter {root_dir}/data'
+    f' ; sudo chown $(id -u):mediacenter {root_dir}/config'
+    ' ; echo "UID=$(id -u)" >> .env'
+)
 
 print('Process complete. You can now run "docker compose up -d" to start your containers.')
 print('Thank you for using EZarr. If you experience any issues or have feature requests, add them to our issues.')
