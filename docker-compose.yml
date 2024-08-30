@@ -180,3 +180,60 @@ services:
     ports:
       - "8081:8080"
     restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=13014
+      - PGID=13000
+      - TZ=Europe/Amsterdam
+      - UMASK=002
+    volumes:
+      - /home/user/ezarr/config/bazarr-config:/config
+      - /home/user/ezarr/data:/data
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    environment:
+      - CADDYUID=13014
+      - CADDYGID=13000
+    volumes:
+      - /home/user/ezarr/config/caddy-config/Caddyfile:/etc/caddy/Caddyfile
+      - /home/user/ezarr/config/caddy-config:/config
+    ports:
+      - "443:443"
+      - "443:443/udp"
+    restart: unless-stopped
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=13016
+      - PGID=13000
+      - TZ=Europe/Amsterdam
+    volumes:
+      - /home/user/ezarr/config/heimdall-config:/config
+    ports:
+      - 80:80
+    restart: unless-stopped
+
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - PUID=13017
+      - PGID=13000
+      - TZ=Europe/London
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+    ports:
+      - "${PORT:-8191}:8191"
+    restart: unless-stopped
